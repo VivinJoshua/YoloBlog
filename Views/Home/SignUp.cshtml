@@ -1,0 +1,52 @@
+﻿@model YoloBlogger.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body
+    {
+        padding-top:15px;
+    }
+</style>
+<h2>YolO BloG</h2>
+<h3>SignUp</h3>
+
+@using (Html.BeginForm("Register", "Home"))
+{
+    <table class="table">
+        <tr>
+            <td>
+                <p class="text-danger">@ViewBag.UserAlreadyExists</p>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.UserDetails.Email)
+                    @Html.TextBoxFor(x => x.UserDetails.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.UserDetails.Email, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.UserDetails.Password)
+                    @Html.PasswordFor(x => x.UserDetails.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.UserDetails.Password, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.ConfirmPassword)
+                    @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-success">Register</button>
+}
+<hr />
+@Html.ActionLink("Login", "Index", "Home", new { @class = "btn btn-primary" })

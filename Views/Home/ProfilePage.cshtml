@@ -1,0 +1,44 @@
+﻿@model YoloBlogger.ViewModels.ProfilepageViewModel
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_NavBar")
+
+
+<h3>UserName : @Model.UserProfileDetails.UserName</h3>
+<h4>Email : @Model.UserProfileDetails.UserDetailss.Email</h4>
+@if (Model.UserProfileDetails.Bio != null)
+{
+    <p>Bio : @Model.UserProfileDetails.Bio</p>
+}
+@if (ViewBag.Msg == Model.UserProfileDetails.UserName)
+{
+    @Html.ActionLink("Edit Profile", "Edit", "Home", new { @class = "btn btn-info" })<br />
+    <a href="@Url.Action("AddPost","Home")" style="margin-top:10px;position:fixed" class="btn btn-success">Add Post</a>
+}
+<br />
+<hr />
+@if (Model.Posts.Count == 0)
+{
+    <h3 class="text-danger"> No Post Published</h3>
+}
+else
+{
+    <h3 class="text-success">Posts</h3>
+    foreach (var val in Model.Posts)
+    {
+        <div class="col-md-4 col-sm-6" style="background-color:honeydew;margin:20px;">
+
+            <h4>@Model.UserProfileDetails.UserName</h4>
+            <p>@Convert.ToString(string.Format("{0:dd/MMM/yyyy}", val.PostDateTime))<span style="margin-left:20px">@Convert.ToString(string.Format("{0:hh:mm}", val.PostDateTime))</span></p>
+            <h3>@val.Post</h3>
+            <p>Like @val.Like</p>
+            @if (ViewBag.Msg == Model.UserProfileDetails.UserName)
+            {
+                <a href="@Url.Action("DeletePost","Home", new { id = val.PostId })" style="color:red;">Delete Post</a>
+                
+            }
+        </div>
+    }
+}

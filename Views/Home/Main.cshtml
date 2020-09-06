@@ -1,0 +1,96 @@
+﻿
+@model YoloBlogger.ViewModels.ProfilepageViewModel
+@{
+    ViewBag.Title = "Main";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/ajax")
+}
+<style>
+    #post {
+        background-color: #FBF7E5;
+        border: 0.1px solid #FBF7E5;
+        border-radius: 15px;
+        width: 75%;
+        margin:15px;
+    }
+
+    h4 {
+        font-size: 20px;
+    }
+
+    #iPost {
+        font-size: 20px;
+        background-color: #FFE1B1;
+        padding: 8px;
+        border: 1px solid #FFE1B1;
+        border-radius:10px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+    
+</style>
+@Html.Partial("_NavBar")
+<a href="@Url.Action("AddPost","Home")" style="margin-top: 10px;position: fixed" class="btn btn-success">Add Post</a>
+<br />
+<br />
+<hr />
+@if (Model.Posts.Count == 0)
+{
+    <h3 class="text-danger">No Post Available</h3>
+}
+else
+{
+    foreach (var val in Model.Posts)
+
+    {
+        using (Html.BeginForm("AddComment", "Home"))
+        {
+        <div class="col-md-6 col-sm-12">
+            <div id="post">
+                <div style="        margin-left: 20px;
+        margin-right: 20px">
+                    <h4>@Html.ActionLink(val.UserName, "ProfileP", "Home", new { id = val.UserId }, null)</h4>
+                    <p>@Convert.ToString(string.Format("{0:dd/MMM/yyyy}", val.PostDateTime))<span style="margin-left:20px"> @Convert.ToString(string.Format("{0:hh:mm}", val.PostDateTime))</span></p>
+                    <p id="iPost">@val.Post</p>
+                    @if (!Model.LikesDetails.Any(x => x.PostId == val.PostId))
+                    {
+                        <i>
+                            @Html.ActionLink("Like", "Like", "Home", new { id = val.PostId },new { Style="color:green;"}) <span id="like-@val.PostId"> @val.Like</span>
+                        </i>
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Dislike", "Dislike", "Home", new { id = val.PostId }, new { Style = "color:red;" }) <span id="like-@val.PostId"> @val.Like</span>
+                    }
+
+                    <i>
+                        <span style="margin-left:20px;">
+                            @Ajax.ActionLink("Comments", "Comments", "Home", new { id = val.PostId },
+                            new AjaxOptions
+                            {
+                            InsertionMode = InsertionMode.Replace, 
+                            UpdateTargetId = "Comment-details-" + val.PostId
+                            }, new { @class = "text-primary" })
+                        </span>
+                        <span style="float:right;"> @Html.TextAreaFor(x => x.UserComment, new { placeholder = "Comment box", @class = "form-control" }) </span>
+                        <button type="submit" class="btn btn-info" name="buttonvalue" value=@val.PostId style="margin-left:5px;">Comment</button>
+                    </i>
+
+
+                    <div id="Comment-details-@val.PostId">
+
+                    </div>
+                    <p class="text-danger">@ViewBag.liked</p>
+                </div>
+            </div>
+       </div>
+        }
+    }
+}
+

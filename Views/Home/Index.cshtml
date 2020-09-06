@@ -1,0 +1,43 @@
+﻿﻿@model YoloBlogger.Models.UserDetails
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body
+    {
+        padding-top:10px;
+    }
+</style>
+<h2>YolO BloG</h2>
+<h3>Login</h3>
+@using (Html.BeginForm("SaveData", "Home"))
+{
+    <table class="table">
+        <tr>
+            <td>
+                <p class="text-danger">@ViewBag.UserAlreadyExists</p>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email)
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Password)
+                    @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-success">Login</button>
+}
+<hr />
+@Html.ActionLink("SignUp Here", "SignUp", "Home", new { @class = "btn btn-primary" })
+

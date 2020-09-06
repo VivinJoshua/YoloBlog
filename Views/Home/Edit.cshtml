@@ -1,0 +1,37 @@
+﻿@model YoloBlogger.Models.UserProfileDetails
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("SaveEdit", "Home"))
+{
+    <h3>Edit Profile</h3>
+    <h3 class="text-warning">@ViewBag.NoUserProfile</h3>
+    <table class="table">
+        <tr>
+            <td>
+                <p class="text-danger">@ViewBag.msg</p>
+                <p class="text-danger">@ViewBag.error</p>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.UserName)
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Bio)
+                    @Html.TextAreaFor(x => x.Bio, new { @class = "form-control" })
+                </div>
+            </td>
+        </tr>
+
+
+    </table>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="@Url.Action("ProfilePage","Home")" new { class="btn btn-warning" } style="margin:5px">Cancel</a>
+}

@@ -1,0 +1,20 @@
+﻿@model YoloBlogger.Models.Posts
+@{
+    ViewBag.Title = "AddPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_NavBar")
+<h3>AddPost</h3>
+@using (Html.BeginForm("SavePost", "Home"))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Post)
+        @Html.TextAreaFor(x => x.Post, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Post, "", new { @class = "text-danger" })
+    </div>
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-success">Post</button>
+    <a href="@Url.Action("Main","Home")" new { class="btn btn-warning" } style="margin:5px">Cancel</a>
+}
+

@@ -1,0 +1,21 @@
+﻿@model List<YoloBlogger.Models.Comments>
+
+    <h5 >@Html.ActionLink("Close","Main","Home",new { @class="text-danger"})</h5>
+        
+        @if (Model.Count == 0)
+        {
+        <p class="text-danger"> No Comments</p>
+        }
+        else
+        {
+            foreach (var com in Model)
+            {
+                    <h5>@Html.ActionLink(com.UserDetailss.UserName, "ProfileP", "Home", new { id = com.UserId }, null)</h5>
+                    
+                    <h4>@com.Comment</h4>
+                    <hr />
+                
+            }
+
+
+        }
